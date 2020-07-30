@@ -10,7 +10,7 @@ class model(tf.keras.Model):
         self.batch_norm2 = tf.keras.layers.BatchNormalization()
         self.dense3 = tf.keras.layers.Dense(1, activation='linear')
 
-    def __call__(self,x):
+    def call(self,x,training=True):
 
         x=self.dense1(x)
         x=self.batch_norm1(x)
