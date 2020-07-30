@@ -37,8 +37,8 @@ add_samples(test_set,y_test,2*n_samples,mid_l,mid_u,image_names)
 # converting to np array
 train_set=np.asarray(train_set)
 test_set=np.asarray(test_set)
-y_train=np.asarray(y_train)
-y_test=np.asarray(y_test)
+y_train=np.asarray(y_train)/100
+y_test=np.asarray(y_test)/100
 
 FR=FR_model()
 # normalizing the dataset
