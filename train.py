@@ -53,15 +53,15 @@ test_set=FR(test_set)
 
 
 model=model()
-"""
+
 model.compile(tf.keras.optimizers.Adam(),tf.keras.losses.MeanSquaredError(),metrics=['accuracy'])
 
-model.fit(train_set,y_train,batch_size=opt.b_size,epochs=opt.epochs,validation_data=(test_set,y_test))"""
+model.fit(train_set,y_train,batch_size=opt.b_size,epochs=opt.epochs,validation_data=(test_set,y_test))
 
 optimizer=tf.keras.optimizers.Adam()
 batch_size=opt.b_size
 
-for i in range(opt.epochs):
+"""for i in range(opt.epochs):
     n_batches=int(len(train_set)/opt.b_size)
     loss_t=0
     loss_vt=0
@@ -71,7 +71,7 @@ for i in range(opt.epochs):
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
             forward=model(curr)
-            loss=tf.reduce_sum((y_train[it:it+batch_size]-forward)**2)/batch_size
+            loss=tf.reduce_sum( (y_train[it:it+batch_size]-forward)**2)/batch_size
             loss_t+=loss
             forward_v=model(test_set[it:it+batch_size])
             loss_v=tf.reduce_sum((y_test[it:it+batch_size] - forward_v)**2)/batch_size
@@ -81,11 +81,11 @@ for i in range(opt.epochs):
         optimizer.apply_gradients(zip(grads,model.trainable_variables))
         it+=batch_size
 
-    loss_t=tf.reduce_sum(loss_t).numpy()
-    loss_vt=tf.reduce_sum(loss_vt).numpy()
+    loss_t=loss_t.numpy()
+    loss_vt=loss_vt.numpy()
     loss_t /= n_batches
     loss_vt /= n_batches
-    print("Loss: {} Validation loss:{} ".format( round(loss_t,2) , round(loss_vt,2)) )
+    print("Loss: {} Validation loss:{} ".format( round(loss_t,2) , round(loss_vt,2)) )"""
 
 
 
