@@ -71,10 +71,10 @@ for i in range(opt.epochs):
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
             forward=model(curr)
-            loss=(y_train[it:it+batch_size])**2 - (forward**2)
+            loss=(y_train[it:it+batch_size]-forward)**2
             loss_t+=loss
             forward_v=model(test_set[it:it+batch_size])
-            loss_v=(y_test[it:it+batch_size])**2 - (forward_v**2)
+            loss_v=(y_test[it:it+batch_size] - forward_v)**2
             loss_v/=batch_size
             loss_vt+=loss_v
 
