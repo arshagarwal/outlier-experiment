@@ -87,7 +87,7 @@ for i in range(opt.epochs):
     loss_vt/=n_batches
     loss_t=tf.reduce_sum(loss_t)
     loss_vt=tf.reduce_sum(loss_vt)
-    print("Loss: {} Validation loss:{} ".format(loss_t,loss_vt))
+    print("Loss: {} Validation loss:{} ".format(round(loss_t,2),round(loss_vt,2)))
 
 
 
