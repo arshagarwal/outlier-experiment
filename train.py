@@ -72,7 +72,7 @@ for i in opt.epochs:
             forward=model(curr)
             loss=tf.keras.losses.MeanSquaredError()(y_train[it:it+batch_size],forward)
             loss_t+=loss
-            forward_v=model(y_test[it:it+batch_size])
+            forward_v=model(test_set[it:it+batch_size])
             loss_v=tf.keras.losses.MeanSquaredError(y_test[it:it+batch_size],forward_v)
             loss_vt+=loss_v
         grads=tape.gradient(loss,model.trainable_variables)
@@ -81,7 +81,7 @@ for i in opt.epochs:
 
     loss_t/=n_batches
     loss_vt/=n_batches
-    print("Loss: {} Validation loss: ".format(loss_t,loss_vt))
+    print("Loss: {} Validation loss:{} ".format(loss_t,loss_vt))
 
 
 
