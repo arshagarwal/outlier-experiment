@@ -85,7 +85,7 @@ for i in range(opt.epochs):
     loss_vt=loss_vt.numpy()
     loss_t /= n_batches
     loss_vt /= n_batches
-    print("Loss: {} Validation loss:{} ".format( round(loss_t,2) , round(loss_vt,2)) )
+    print("Loss: {} Validation loss:{} ".format( round(loss_t,4) , round(loss_vt,4)) )
 
 
 
