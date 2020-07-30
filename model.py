@@ -3,10 +3,18 @@ class model(tf.keras.Model):
 
     def __init__(self):
         super(model, self).__init__();
-        input=tf.keras.Input(shape=(128,))
-        x=tf.keras.layers.Dense(64,activation='relu')(input)
-        x=tf.keras.layers.BatchNormalization()(x)
-        x=tf.keras.layers.Dense(32,activation='relu')(x)
-        x=tf.keras.layers.BatchNormalization()(x)
-        x = tf.keras.layers.Dense(1, activation='linear')(x)
-        self.c_model=tf.keras.Model(input,x)
+
+        self.dense1=tf.keras.layers.Dense(64,activation='relu')
+        self.batch_norm1=tf.keras.layers.BatchNormalization()
+        self.dense2 = tf.keras.layers.Dense(32, activation='relu')
+        self.batch_norm2 = tf.keras.layers.BatchNormalization()
+        self.dense3 = tf.keras.layers.Dense(1, activation='linear')
+
+    def __call__(self,x):
+
+        x=self.dense1(x)
+        x=self.batch_norm1(x)
+        x = self.dense2(x)
+        x = self.batch_norm2(x)
+        x = self.dense3(x)
+        return x
