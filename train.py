@@ -75,17 +75,16 @@ for i in range(opt.epochs):
             loss_t+=loss
             forward_v=model(test_set[it:it+batch_size])
             loss_v=(y_test[it:it+batch_size] - forward_v)**2
-            loss_v/=batch_size
             loss_vt+=loss_v
 
         grads=tape.gradient(loss,model.trainable_variables)
         optimizer.apply_gradients(zip(grads,model.trainable_variables))
         it+=batch_size
 
-    loss_t/=n_batches*batch_size
-    loss_vt/=n_batches*batch_size
     loss_t=tf.reduce_sum(loss_t).numpy()
     loss_vt=tf.reduce_sum(loss_vt).numpy()
+    loss_t /= n_batches * batch_size
+    loss_vt /= n_batches * batch_size
     print("Loss: {} Validation loss:{} ".format( round(loss_t,2) , round(loss_vt,2)) )
 
 
