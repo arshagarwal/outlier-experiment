@@ -80,7 +80,7 @@ for i in range(opt.epochs):
             loss_vt+=loss_v
 
         grads=tape.gradient(loss,model.trainable_variables)
-        optimizer.apply_gradients(zip(loss,model.trainable_variables))
+        optimizer.apply_gradients(zip(grads,model.trainable_variables))
         it+=batch_size
 
     loss_t/=n_batches
