@@ -74,7 +74,7 @@ for i in range(opt.epochs):
             loss=tf.keras.losses.MeanSquaredError()(y_train[it:it+batch_size],forward)
             loss_t+=loss
             forward_v=model(test_set[it:it+batch_size])
-            loss_v=tf.keras.losses.MeanSquaredError(y_test[it:it+batch_size],forward_v)
+            loss_v=tf.keras.losses.MeanSquaredError()(y_test[it:it+batch_size],forward_v)
             loss_vt+=loss_v
         grads=tape.gradient(loss,model.trainable_variables)
         optimizer.apply_gradients(zip(loss,model.trainable_variables))
