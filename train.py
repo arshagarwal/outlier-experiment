@@ -60,11 +60,11 @@ model.fit(train_set,y_train,batch_size=opt.b_size,epochs=opt.epochs,validation_d
 optimizer=tf.keras.optimizers.Adam()
 batch_size=opt.b_size
 
-for i in opt.epochs:
-    n_batches=len(train_set)/opt.b_size
+for i in range(opt.epochs):
+    n_batches=int(len(train_set)/opt.b_size)
     loss_t=0
     loss_vt=0
-    for j in n_batches:
+    for j in range(n_batches):
         it=0
         with tf.GradientTape as tape:
             tape.watch(model.trainable_variables)
