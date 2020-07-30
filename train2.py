@@ -58,9 +58,9 @@ model=model()
 
 optimizer=tf.keras.optimizers.Adam()
 batch_size=opt.b_size
+n_batches = int(len(train_set) / opt.b_size)
 
 for i in range(opt.epochs):
-    n_batches=int(len(train_set)/opt.b_size)
     loss_t=0
     loss_vt=0
     it=0
@@ -69,8 +69,8 @@ for i in range(opt.epochs):
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
             forward=model(curr)
-            loss=tf.reduce_sum( (y_train[it:it+batch_size]-forward)**2)/batch_size
-            loss_t+=loss
+            loss=tf.keras.losses.MeanSquaredError()(y_train[it:it+batch_size],forward)
+            loss_t += loss
             forward_v=model(test_set[it:it+batch_size])
             loss_v=tf.reduce_sum((y_test[it:it+batch_size] - forward_v)**2)/batch_size
             loss_vt+=loss_v
