@@ -71,10 +71,10 @@ for i in range(opt.epochs):
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
             forward=model(curr)
-            loss=(y_train[it:it+batch_size]-forward)**2
+            loss=tf.reduce_sum((y_train[it:it+batch_size]-forward)**2)/batch_size
             loss_t+=loss
             forward_v=model(test_set[it:it+batch_size])
-            loss_v=(y_test[it:it+batch_size] - forward_v)**2
+            loss_v=tf.reduce_sum((y_test[it:it+batch_size] - forward_v)**2)/batch_size
             loss_vt+=loss_v
 
         grads=tape.gradient(loss,model.trainable_variables)
@@ -83,8 +83,8 @@ for i in range(opt.epochs):
 
     loss_t=tf.reduce_sum(loss_t).numpy()
     loss_vt=tf.reduce_sum(loss_vt).numpy()
-    loss_t /= n_batches * batch_size
-    loss_vt /= n_batches * batch_size
+    loss_t /= n_batches
+    loss_vt /= n_batches
     print("Loss: {} Validation loss:{} ".format( round(loss_t,2) , round(loss_vt,2)) )
 
 
