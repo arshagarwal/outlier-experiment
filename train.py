@@ -65,8 +65,8 @@ for i in range(opt.epochs):
     n_batches=int(len(train_set)/opt.b_size)
     loss_t=0
     loss_vt=0
+    it=0
     for j in range(n_batches):
-        it=0
         with tf.GradientTape() as tape:
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
