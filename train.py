@@ -71,11 +71,14 @@ for i in range(opt.epochs):
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
             forward=model(curr)
-            loss=tf.keras.losses.MeanSquaredError()(y_train[it:it+batch_size],forward)
+            loss=(y_train[it:it+batch_size])**2 - (forward**2)
+            loss/=batch_size
             loss_t+=loss
             forward_v=model(test_set[it:it+batch_size])
-            loss_v=tf.keras.losses.MeanSquaredError()(y_test[it:it+batch_size],forward_v)
+            loss_v=(y_test[it:it+batch_size])**2 - (forward_v**2)
+            loss_v/=batch_size
             loss_vt+=loss_v
+
         grads=tape.gradient(loss,model.trainable_variables)
         optimizer.apply_gradients(zip(loss,model.trainable_variables))
         it+=batch_size
