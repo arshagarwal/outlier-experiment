@@ -85,12 +85,11 @@ for i in range(opt.epochs):
         it+=batch_size
 
     loss_t=loss_t.numpy()
-    forward_v = model(test_set[it2:it2 + batch_size], False)
-    loss_v = tf.keras.losses.MeanAbsoluteError()(y_test[it2:it2 + batch_size], forward_v).numpy()
+    forward_v = model(test_set, False)
+    loss_v = tf.keras.losses.MeanAbsoluteError()(y_test, forward_v).numpy()
     it2+=batch_size
     loss_t /= n_batches
     print("Loss: {} Validation loss:{} ".format( round(loss_t,4) , round(loss_v,4)) )
-
 
 
 
