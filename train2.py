@@ -40,6 +40,7 @@ test_set=np.asarray(test_set)
 y_train=np.asarray(y_train)/100
 y_test=np.asarray(y_test)/100
 
+
 FR=FR_model()
 # normalizing the dataset
 train_set=normalize(train_set)
@@ -48,6 +49,12 @@ test_set=normalize(test_set)
 # getting corresponding embeddings
 train_set=FR(train_set)
 test_set=FR(test_set)
+
+index=np.arange(0,len(test_set))
+np.random.shuffle(index)
+test_set=test_set[index]
+y_test=y_test[index]
+
 
 
 
@@ -59,7 +66,7 @@ model=model()
 optimizer=tf.keras.optimizers.Adam()
 batch_size=opt.b_size
 n_batches = int(len(train_set) / opt.b_size)
-
+it2=0
 for i in range(opt.epochs):
     loss_t=0
     loss_vt=0
@@ -68,24 +75,21 @@ for i in range(opt.epochs):
         with tf.GradientTape() as tape:
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
-            forward=model(curr)
+            forward=model(curr,True)
             loss=tf.keras.losses.MeanAbsoluteError()(y_train[it:it+batch_size],forward)
             loss_t += loss
-            forward_v=model(test_set[it:it+batch_size],False)
-            loss_v=tf.keras.losses.MeanAbsoluteError()(y_test[it:it+batch_size],forward_v)
-            check=tf.reduce_sum( (y_test[it:it+batch_size] - forward_v)**2 )/batch_size
-            #assert loss_v== check ,"check : {} loss_v: {} ".format(check,loss_v)
-            loss_vt+=loss_v
+
 
         grads=tape.gradient(loss,model.trainable_variables)
         optimizer.apply_gradients(zip(grads,model.trainable_variables))
         it+=batch_size
 
     loss_t=loss_t.numpy()
-    loss_vt=loss_vt.numpy()
+    forward_v = model(test_set[it2:it2 + batch_size], False)
+    loss_v = tf.keras.losses.MeanAbsoluteError()(y_test[it2:it2 + batch_size], forward_v).numpy()
+    it2+=batch_size
     loss_t /= n_batches
-    loss_vt /= n_batches
-    print("Loss: {} Validation loss:{} ".format( round(loss_t,4) , round(loss_vt,4)) )
+    print("Loss: {} Validation loss:{} ".format( round(loss_t,4) , round(loss_v,4)) )
 
 
 
