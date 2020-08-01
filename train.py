@@ -54,7 +54,7 @@ test_set=FR(test_set)
 
 model=model()
 
-model.compile(tf.keras.optimizers.Adam(),tf.keras.losses.MeanSquaredError(),metrics=['accuracy'])
+model.compile(tf.keras.optimizers.Adam(),tf.keras.losses.MeanAbsoluteError(),metrics=['accuracy'])
 
 model.fit(train_set,y_train,batch_size=opt.b_size,epochs=opt.epochs,validation_data=(test_set,y_test))
 

@@ -69,7 +69,7 @@ for i in range(opt.epochs):
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
             forward=model(curr)
-            loss=tf.keras.losses.MeanSquaredError()(y_train[it:it+batch_size],forward)
+            loss=tf.keras.losses.MeanAbsoluteError()(y_train[it:it+batch_size],forward)
             loss_t += loss
             forward_v=model(test_set)
             loss_v=tf.keras.losses.MeanSquaredError()(y_test,forward_v)
