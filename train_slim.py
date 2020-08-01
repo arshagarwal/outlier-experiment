@@ -29,7 +29,7 @@ n_batches = int(len(train_set) / opt.b_size)
 
 checkpoint=tf.train.Checkpoint(model=model,opt=optimizer)
 manager=tf.train.CheckpointManager(checkpoint,directory='Checkpoints',max_to_keep=3)
-for i in range(opt.epochs):
+for i in range(1,opt.epochs+1):
     loss_t=0
     it=0
     for j in range(n_batches):

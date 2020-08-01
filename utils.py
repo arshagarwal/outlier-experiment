@@ -28,7 +28,7 @@ def normalize(data):
     return data
 
 
-def process(path, img_size=(128, 128), batch_size=2000):
+def process(path, img_size=(160, 160), batch_size=2000):
     """
     Extracts and processes the images from the given path
     :param path: String that denotes the path of the directory where Images are stored
