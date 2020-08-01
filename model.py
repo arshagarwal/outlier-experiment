@@ -13,8 +13,8 @@ class model(tf.keras.Model):
     def call(self,x,training=True):
 
         x=self.dense1(x)
-        x=self.batch_norm1(x)
+        x=self.batch_norm1(x,training=training)
         x = self.dense2(x)
-        x = self.batch_norm2(x)
+        x = self.batch_norm2(x,training=training)
         x = self.dense3(x)
         return x

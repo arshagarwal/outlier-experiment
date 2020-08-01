@@ -71,7 +71,7 @@ for i in range(opt.epochs):
             forward=model(curr)
             loss=tf.keras.losses.MeanAbsoluteError()(y_train[it:it+batch_size],forward)
             loss_t += loss
-            forward_v=model(test_set[it:it+batch_size])
+            forward_v=model(test_set[it:it+batch_size],False)
             loss_v=tf.keras.losses.MeanAbsoluteError()(y_test[it:it+batch_size],forward_v)
             check=tf.reduce_sum( (y_test[it:it+batch_size] - forward_v)**2 )/batch_size
             #assert loss_v== check ,"check : {} loss_v: {} ".format(check,loss_v)
