@@ -16,8 +16,8 @@ class FR_model(tf.keras.Model):
         Layer Declaration
         Uses one of the following pre-trained network (VGG-FACE | VGG-16 | VGG-19); add only one of these for now
         """
-        self.model = load_model('../Facenet/facenet_model.h5')
-        self.model.load_weights('../Facenet/facenet_weights.h5')
+        self.model = load_model('Facenet/facenet_model.h5')
+        self.model.load_weights('Facenet/facenet_weights.h5')
     def __call__(self,x):
         """
         :param x: Images of the shape [batch_size,128,128,3]
