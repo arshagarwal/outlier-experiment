@@ -1,10 +1,10 @@
-from Face_recognition import FR_model
+from models.Face_recognition import FR_model
 import os
 from PIL import Image
 import numpy as np
 from Options.options import  options
 import tensorflow as tf
-from model import model
+from models.model import model
 import utils
 
 add_samples=utils.add_samples

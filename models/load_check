@@ -1,0 +1,2 @@
+import tensorflow as tf
+model = tf.keras.models.load_model('../Facenet/facenet_model.h5')
