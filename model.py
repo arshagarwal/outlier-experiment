@@ -8,7 +8,9 @@ class model(tf.keras.Model):
         self.batch_norm1=tf.keras.layers.BatchNormalization()
         self.dense2 = tf.keras.layers.Dense(32, activation='relu')
         self.batch_norm2 = tf.keras.layers.BatchNormalization()
-        self.dense3 = tf.keras.layers.Dense(1, activation='linear')
+        self.dense3 = tf.keras.layers.Dense(16, activation='relu')
+        self.batch_norm3 = tf.keras.layers.BatchNormalization()
+        self.dense4 = tf.keras.layers.Dense(1, activation='linear')
 
     def call(self,x,training=True):
 
@@ -17,4 +19,6 @@ class model(tf.keras.Model):
         x = self.dense2(x)
         x = self.batch_norm2(x,training=training)
         x = self.dense3(x)
+        x = self.batch_norm3(x,training=training)
+        x = self.dense4(x)
         return x
