@@ -38,15 +38,15 @@ for i in range(1,opt.epochs+1):
         with tf.GradientTape() as tape:
             tape.watch(model.trainable_variables)
             curr=train_set[it:it+batch_size]
-            forward=model(curr)
+            forward=model(curr,training=True)
             if opt.loss=='mse':
                 loss=tf.keras.losses.MeanSquaredError()(y_train[it:it+batch_size],forward)
             elif opt.loss=='mae':
                 loss=tf.keras.losses.MeanAbsoluteError()(y_train[it:it+batch_size],forward)
             else:
                 raise ValueError("Loss function not recognized ")
-            loss_t += loss
 
+        loss_t += loss
         grads=tape.gradient(loss,model.trainable_variables)
         optimizer.apply_gradients(zip(grads,model.trainable_variables))
         it+=batch_size

@@ -30,6 +30,15 @@ n_batches = int(len(train_set) / opt.b_size)
 checkpoint=tf.train.Checkpoint(model=model,opt=optimizer)
 manager=tf.train.CheckpointManager(checkpoint,directory='Checkpoints',max_to_keep=3)
 
-model.compile(optimizer=tf.keras.optimizers.Adam(),loss=tf.keras.losses.MeanAbsoluteError())
-model.fit(train_set,y_train,opt.b_size,epochs=opt.epochs)
+if opt.loss== 'mae':
+    model.compile(optimizer=tf.keras.optimizers.Adam(),loss=tf.keras.losses.MeanAbsoluteError())
+    model.fit(train_set,y_train,opt.b_size,epochs=opt.epochs,validation_split=0.1)
+elif opt.loss== 'bce':
+    y_train=y_train-0.1
+    y_train=y_train/0.8
+    model.compile(optimizer=tf.keras.optimizers.Adam(), loss=tf.keras.losses.BinaryCrossentropy(),metrics=['accuracy'])
+    model.fit(train_set, y_train, opt.b_size, epochs=opt.epochs, validation_split=0.1)
 
+
+
+model.save('checkpoint2')
