@@ -61,7 +61,9 @@ def process2(path, img_size=(160, 160), batch_size=2000):
         path,
         target_size=img_size,
         batch_size=batch_size,
-        class_mode='binary')
-    (x, y) = next(generator)
+        class_mode='binary',
+        shuffle=False
+    )
 
-    return x
+
+    return generator

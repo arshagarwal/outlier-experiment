@@ -12,31 +12,34 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--path',
                             help="path to the dataset")
+parser.add_argument('--length',type=int,default=70000,help='length of dataset')
 parser.add_argument('--l',type=float,default=0.5,help="lower limit")
 parser.add_argument('--u',type=float,default=0.5,help="lower limit")
 opt=parser.parse_args()
 
-
+sampling_size=100
+gen=utils.process2(opt.path, batch_size=sampling_size)
 model=tf.keras.models.load_model('checkpoint2')
-Images_un= utils.process2(opt.path,batch_size=80000)
-mean=Images_un.mean()
-std=Images_un.std()
 
-Images=(Images_un-mean)/std
 FR=FR_model()
 
 os.mkdir("Class_Flicker")
 os.mkdir('Class_Flicker/Fat')
 os.mkdir('Class_Flicker/Thin')
 
-sampling_size=100
-n_batches=int(len(Images)/sampling_size)
-it=0
+
+length=opt.length
+n_batches= int(length/sampling_size)
+
 count=1;
 for j in range(n_batches):
-    Embeddings= FR(Images[it:it+sampling_size])
-    curr_Images=Images_un[it:it+sampling_size]
-    it+=sampling_size
+    (Images_un,y) = next(gen)
+    mean = Images_un.mean()
+    std = Images_un.std()
+
+    Images = (Images_un - mean) / std
+    Embeddings= FR(Images)
+    curr_Images=Images_un
 
     assert len(Embeddings) == sampling_size, "only {} images were found".format(len(Embeddings))
     preds = model.predict(Embeddings)
