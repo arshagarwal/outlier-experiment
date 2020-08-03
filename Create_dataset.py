@@ -12,8 +12,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--path',
                             help="path to the dataset")
-parser.add_argument('--l',type=int,default=0.5,help="lower limit")
-parser.add_argument('--u',type=int,default=0.5,help="lower limit")
+parser.add_argument('--l',type=float,default=0.5,help="lower limit")
+parser.add_argument('--u',type=float,default=0.5,help="lower limit")
 opt=parser.parse_args()
 
 model=tf.keras.models.load_model('checkpoint2')
