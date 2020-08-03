@@ -16,6 +16,7 @@ parser.add_argument('--l',type=float,default=0.5,help="lower limit")
 parser.add_argument('--u',type=float,default=0.5,help="lower limit")
 opt=parser.parse_args()
 
+
 model=tf.keras.models.load_model('checkpoint2')
 Images_un= utils.process2(opt.path,batch_size=80000)
 mean=Images_un.mean()
@@ -24,28 +25,34 @@ std=Images_un.std()
 Images=(Images_un-mean)/std
 FR=FR_model()
 
-Embeddings= FR(Images)
-#assert len(Embeddings) == 70000, "only {} images were found".format(len(Embeddings))
-
-preds = model.predict(Embeddings)
-#assert len(preds) == 70000, "only {} images were found".format(len(preds))
-
 os.mkdir("Class_Flicker")
 os.mkdir('Class_Flicker/Fat')
 os.mkdir('Class_Flicker/Thin')
 
-count=0;
-for i in range(len(preds)):
-    curr_img=Images_un[i]
-    curr_img=curr_img.astype('uint8')
-    curr_img=Image.fromarray(curr_img)
+sampling_size=100
+n_batches=int(len(Images)/sampling_size)
+it=0
+count=1;
+for j in range(n_batches):
+    Embeddings= FR(Images[it:it+sampling_size])
+    curr_Images=Images_un[it:it+sampling_size]
+    it+=sampling_size
 
-    if(preds[i]<=opt.l):
-        curr_img.save('Class_Flicker/Fat/'+str(i)+'.png')
-        count+=1
-    elif(preds[i]>=opt.u):
-        curr_img.save('Class_Flicker/Thin/' + str(i) + '.png')
-        count+=1
+    assert len(Embeddings) == sampling_size, "only {} images were found".format(len(Embeddings))
+    preds = model.predict(Embeddings)
+
+
+    for i in range(len(preds)):
+        curr_img=curr_Images[i]
+        curr_img=curr_img.astype('uint8')
+        curr_img=Image.fromarray(curr_img)
+
+        if(preds[i]<=opt.l):
+            curr_img.save('Class_Flicker/Fat/'+str(count)+'.png')
+            count+=1
+        elif(preds[i]>=opt.u):
+            curr_img.save('Class_Flicker/Thin/' + str(count) + '.png')
+            count+=1
 
 print("{} no. of images were saved ".format(count))
 
