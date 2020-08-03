@@ -36,10 +36,10 @@ for i in range(len(preds)):
     curr_img=curr_img.astype('uint8')
     curr_img=Image.fromarray(curr_img)
 
-    if(preds[i]<=0.3):
+    if(preds[i]<0.3):
         curr_img.save('Class_Flicker/Fat/'+str(i)+'.png')
         count+=1
-    elif(preds[i]>=0.7):
+    elif(preds[i]>=0.5):
         curr_img.save('Class_Flicker/Thin/' + str(i) + '.png')
         count+=1
 
