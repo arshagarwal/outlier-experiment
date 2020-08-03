@@ -12,6 +12,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--path',
                             help="path to the dataset")
+parser.add_argument('--l',type=int,default=0.5,help="lower limit")
+parser.add_argument('--u',type=int,default=0.5,help="lower limit")
 opt=parser.parse_args()
 
 model=tf.keras.models.load_model('checkpoint2')
@@ -36,10 +38,10 @@ for i in range(len(preds)):
     curr_img=curr_img.astype('uint8')
     curr_img=Image.fromarray(curr_img)
 
-    if(preds[i]<0.3):
+    if(preds[i]<=opt.l):
         curr_img.save('Class_Flicker/Fat/'+str(i)+'.png')
         count+=1
-    elif(preds[i]>=0.5):
+    elif(preds[i]>=opt.u):
         curr_img.save('Class_Flicker/Thin/' + str(i) + '.png')
         count+=1
 
