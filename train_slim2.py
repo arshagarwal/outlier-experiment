@@ -41,4 +41,4 @@ elif opt.loss== 'bce':
 
 
 
-model.save('checkpoint3')
+model.save('checkpoint2')
