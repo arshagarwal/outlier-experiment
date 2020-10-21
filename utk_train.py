@@ -7,9 +7,10 @@ import numpy as np
 import random
 import argparse
 from models.model import model
+import time
 
 
-def get_images(batch_size, add, img_size=(160, 160)):
+def get_images(batch_size, add, img_size=(160, 160), path=''):
     """
 
     :param batch_size:
@@ -21,17 +22,20 @@ def get_images(batch_size, add, img_size=(160, 160)):
     X = []
     y = []
     for i in rand:
+        """
         image = cv2.imread(add[i])
         curr_img = cv2.resize(image, img_size, interpolation=cv2.INTER_CUBIC)
         curr_img = curr_img.astype('float64')
-        """
         mean = curr_img.mean()
         stddev = curr_img.stddev()
         curr_img = (curr_img - mean)/stddev
         """
+        image = Image.open(path + '/' + add[i])
+        image = image.resize(img_size)
+        curr_img = np.asarray(image)
         curr_img = curr_img / 127.5
         curr_img = curr_img - 1
-        curr_age = i.split('_')[0]
+        curr_age = (int)(add[i].split('_')[0])
         X.append(curr_img)
         y.append(curr_age)
 
@@ -58,16 +62,18 @@ def train(args):
         iters = (int)(epochs * n_batches)
         assert iters > 0
         print("iters are {}".format(iters))
+        start_time = time.time()
         for i in range(iters):
-            X, Y = get_images(batch_size, Address, (args.img_size, args.img_size))
+            X, Y = get_images(batch_size, Address, (args.img_size, args.img_size), args.img_dir)
             X = np.array(X)
             Y = np.array(Y)
             X = FR(X)
 
             assert X.shape == (batch_size, 128), 'expected shape {} O/p shape {}'.format((batch_size, 128), X.shape)
             history = Model.fit(X, Y, batch_size, 1, verbose=0)
+            time_taken = (int)(time.time() - start_time)
             if (i + 1) % args.log_step == 0:
-                print("Iters [{}/{}] Loss {} Batch size {}   ".format(i + 1, iters, history.history['loss'],
+                print("Time: {}s Iters [{}/{}] Loss {} Batch size {}   ".format(time_taken, i + 1, iters, history.history['loss'],
                                                                       args.batch_size))
 
         Model.save(args.save_path)
