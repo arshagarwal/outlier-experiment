@@ -1,0 +1,4 @@
+From tensorflow/tensorflow:latest-gpu 
+COPY . .
+RUN apt-get update && apt-get install -y git
+#RUN pip3 install --default-timeout=100 -r requirements.txt
