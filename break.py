@@ -11,12 +11,11 @@ def split_images(img_dir, classes, res, prefix):
     os.mkdir(prefix)
     for i in range(classes):
         os.mkdir(prefix + '/' + 'class' + str(i))
-    dp = Path(os.getcwd() + img_dir)
+    dp = Path(img_dir)
     input_dir = os.listdir(dp)
     frame_num = 1
     for i in input_dir:
-        print(os.getcwd() + img_dir + i)
-        im = Image.open(Path(os.getcwd() + img_dir + '/' + i))
+        im = Image.open(Path(img_dir + '/' + i))
         im_width, im_height = im.size
         rows = im_height / res
         w, h = (int(im_width / classes), int(im_height / rows))  # number of rows
@@ -25,7 +24,7 @@ def split_images(img_dir, classes, res, prefix):
         for col_i in range(0, im_width, w):
             for row_i in range(0, im_height, h):
                 crop = im.crop((col_i, row_i, col_i + w, row_i + h))
-                save_to = os.path.join(Path(os.getcwd() + '/' + prefix + '/class' + str(k % classes)),
+                save_to = os.path.join(Path(prefix + '/class' + str(k % classes)),
                                        "counter_{:03}.jpg")
                 crop.save(save_to.format(frame_num))
                 count += 1
