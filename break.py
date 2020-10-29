@@ -38,11 +38,11 @@ if __name__ == '__main__':
 
     # Model configuration.
     parser.add_argument('--img_dir', type=str, default='data', help='directory that contains grid images')
-    parser.add_argument('--classes', type=int, default=3, help='number of classes')
+    parser.add_argument('--classes', type=int, default=2, help='number of classes')
     parser.add_argument('--res', type=int, default=256, help='resolution of images')
     parser.add_argument('--prefix', type=str, default='256_resolution',
                         help='parent directory that contains all the splitted classes')
 
     args = parser.parse_args()
-    split_images(args.img_dir, args.classes, args.res, args.prefix)
+    split_images(args.img_dir, args.classes + 1, args.res, args.prefix)
 
