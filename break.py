@@ -25,7 +25,7 @@ def split_images(img_dir, classes, res, prefix):
             for row_i in range(0, im_height, h):
                 crop = im.crop((col_i, row_i, col_i + w, row_i + h))
                 save_to = os.path.join(Path(prefix + '/class' + str(k % classes)),
-                                       "counter_{:03}.jpg")
+                                       "counter_{:06}.jpg")
                 crop.save(save_to.format(frame_num))
                 count += 1
                 print("{}th no of image saved ".format(count))
